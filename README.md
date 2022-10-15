@@ -55,8 +55,7 @@ and (re)compiling the source code.
 
 # Recomendation
 
-Use [dwmblocks](https://github.com/torrinfail/dwmblocks) or [dwmblocks-async](https://github.com/UtkarshVerma/dwmblocks-async) with [dwm](https://dwm.suckless.org/)
+Use [dwmblocks](https://github.com/torrinfail/dwmblocks) or [dwmblocks-async](https://github.com/Iwwww/dwmblocks-async) with [dwm](https://dwm.suckless.org/)
 
 # Linked with dwm
-
-
+- [st](https://github.com/Iwwww/st)
