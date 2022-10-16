@@ -2,6 +2,12 @@
 
 dwm is an extremely fast, small, and dynamic window manager for X.
 
+# Screenshots
+
+![image](https://user-images.githubusercontent.com/45224503/196011835-228f61b1-b11d-4891-929e-e2f90914e829.png)
+
+![image](https://user-images.githubusercontent.com/45224503/196011732-12cfa7b2-0d15-47bc-aa1f-33dc639f6eae.png)
+
 
 # Requirements
 
