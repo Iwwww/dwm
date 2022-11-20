@@ -79,6 +79,20 @@ static char urgfloatcolor[]              = "#db8fd9";
 
 
 
+static const unsigned int baralpha = 140;
+static const unsigned int borderalpha = 140;
+static const unsigned int alphas[][3] = {
+	/*                       fg      bg        border     */
+	[SchemeNorm]         = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]          = { OPAQUE, baralpha, borderalpha },
+	[SchemeTitleNorm]    = { OPAQUE, baralpha, borderalpha },
+	[SchemeTitleSel]     = { OPAQUE, baralpha, borderalpha },
+	[SchemeTagsNorm]     = { OPAQUE, baralpha, borderalpha },
+	[SchemeTagsSel]      = { OPAQUE, baralpha, borderalpha },
+	[SchemeHidNorm]      = { OPAQUE, baralpha, borderalpha },
+	[SchemeHidSel]       = { OPAQUE, baralpha, borderalpha },
+	[SchemeUrg]          = { OPAQUE, baralpha, borderalpha },
+};
 
 static char *colors[][ColCount] = {
 	/*                       fg                bg                border                float */
@@ -162,7 +176,7 @@ static const Rule rules[] = {
 	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
     RULE(.class = "Gimp", .tags = 1 << 4)
-	RULE(.class = "Firefox", .tags = 1 << 7)
+	// RULE(.class = "Firefox", .tags = 1 << 7)
 	RULE(.class = "St", .isfloating = 0)
 	RULE(.class = "st-256color", .isfloating = 0)
 	RULE(.class = "mpv", .isfloating = 0)
@@ -359,29 +373,56 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                                  7)
 	TAGKEYS(                        XK_9,                                  8)
 
-    { MODKEY,			            XK_minus,	        spawn,		SHCMD("pamixer --allow-boost -d 5; kill -37 $(pidof dwmblocks)") },
-	{ MODKEY|ShiftMask,		        XK_minus,	        spawn,		SHCMD("pamixer --allow-boost -d 15; kill -37 $(pidof dwmblocks)") },
-	{ MODKEY,			            XK_equal,	        spawn,		SHCMD("pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks)") },
-	{ MODKEY|ShiftMask,		        XK_equal,	        spawn,		SHCMD("pamixer --allow-boost -i 15; kill -37 $(pidof dwmblocks)") },
-    { MODKEY,			       		XK_w,				spawn,		SHCMD(BROWSER) },
-	{ MODKEY|ShiftMask,		   		XK_w,				spawn,		SHCMD("networkmanager_dmenu") },
-	{ MODKEY|ShiftMask,		   		XK_b,				spawn,		SHCMD("dmenu-bluetooth -l 30") },
-	{ MODKEY|ControlMask,	   		XK_w,				spawn,		SHCMD("firefox") },
-    { MODKEY|ControlMask,		    XK_o,               spawn,      SHCMD("dm-browser") },
-	{ MODKEY|ControlMask,		    XK_e,               spawn,      SHCMD("dm-unicode") },
-	{ MODKEY|ShiftMask,			    XK_l,		        spawn,      SHCMD("dm-power") },
-    { MODKEY,			            XK_c,		        spawn,		SHCMD("dmenu-translate") },
-    { MODKEY|ShiftMask,             XK_s,               spawn,      SHCMD("maim -s --hidecursor | xclip -selection clipboard -t image/png") },
-	{ MODKEY|ControlMask,	        XK_t,			    spawn,	    SHCMD("telegram-desktop") },
+	{ MODKEY,		XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 5; kill -37 $(pidof dwmblocks)") },
+	{ MODKEY|ShiftMask,	XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 15; kill -37 $(pidof dwmblocks)") },
+	{ MODKEY,		XK_equal,	spawn,		SHCMD("pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks)") },
+	{ MODKEY|ShiftMask,	XK_equal,	spawn,		SHCMD("pamixer --allow-boost -i 15; kill -37 $(pidof dwmblocks)") },
+	{ MODKEY,		XK_w,		spawn,		SHCMD(BROWSER) },
+	{ MODKEY|ShiftMask,	XK_w,		spawn,		SHCMD("networkmanager_dmenu") },
+	{ MODKEY|ShiftMask,	XK_b,		spawn,		SHCMD("dmenu-bluetooth -l 30") },
+	{ MODKEY|ControlMask,	XK_w,		spawn,		SHCMD("firefox") },
+	{ MODKEY|ControlMask,	XK_o,           spawn,		SHCMD("dm-browser") },
+	{ MODKEY|ControlMask,	XK_e,           spawn,		SHCMD("dm-unicode") },
+	{ MODKEY|ShiftMask,	XK_l,		spawn,		SHCMD("dm-power") },
+	{ MODKEY,		XK_c,		spawn,		SHCMD("dmenu-translate") },
+	{ MODKEY|ShiftMask,	XK_s,           spawn,		SHCMD("screenshot-part") },
+	{ MODKEY|ControlMask,	XK_t,		spawn,		SHCMD("telegram-desktop") },
+	{ MODKEY,		XK_m,		spawn,		SHCMD("mount_device") },
+	{ 0,			XK_Print,	spawn,		SHCMD("screenshot") },
+	{ Mod1Mask,		XK_Shift_L,	spawn,		SHCMD("kill -40 ($pidof dwmblocks)") },
+	{ Mod1Mask,		XK_Shift_R,	spawn,		SHCMD("kill -40 ($pidof dwmblocks)") },
+	{ MODKEY,		XK_p,		spawn,		SHCMD("mpc toggle") },
+	{ MODKEY|ShiftMask,	XK_p,		spawn,		SHCMD("mpc pause ; pauseallmpv") },
+	{ MODKEY,		XK_bracketleft,	spawn,		SHCMD("mpc seek -10") },
+	{ MODKEY|ShiftMask,	XK_bracketleft,	spawn,		SHCMD("mpc seek -60") },
+	{ MODKEY,		XK_bracketright,spawn,		SHCMD("mpc seek +10") },
+	{ MODKEY|ShiftMask,	XK_bracketright,spawn,		SHCMD("mpc seek +60") },
+    	{ MODKEY,		XK_comma,	spawn,		SHCMD("mpc prev") },
+	{ MODKEY|ShiftMask,	XK_comma,	spawn,		SHCMD("mpc seek 0%") },
+	{ MODKEY,		XK_period,	spawn,		SHCMD("mpc next") },
+	{ MODKEY|ShiftMask,	XK_period,	spawn,		SHCMD("mpc repeat") },
 
+	{ 0, XF86XK_AudioMute,			spawn,		SHCMD("pamixer -t; kill -37 $(pidof dwmblocks)") },
+	{ 0, XF86XK_AudioRaiseVolume,		spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks); fi") },
+	{ 0, XF86XK_AudioLowerVolume,		spawn,		SHCMD("pamixer --allow-boost -d 5; kill -37 $(pidof dwmblocks)") },
+    	{ 0, XF86XK_AudioPrev,			spawn,		SHCMD("mpc prev") },
+	{ 0, XF86XK_AudioNext,			spawn,		SHCMD("mpc next") },
+	{ 0, XF86XK_AudioPause,			spawn,		SHCMD("mpc pause") },
+	{ 0, XF86XK_AudioPlay,			spawn,		SHCMD("mpc play") },
+	{ 0, XF86XK_AudioStop,			spawn,		SHCMD("mpc stop") },
+	{ 0, XF86XK_AudioRewind,		spawn,		SHCMD("mpc seek -10") },
+	{ 0, XF86XK_AudioForward,		spawn,		SHCMD("mpc seek +10") },
+	{ 0, XF86XK_AudioMedia,			spawn,		SHCMD(TERMINAL " -e ncmpcpp") },
+	{ 0, XF86XK_AudioMicMute,		spawn,		SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle") },
+	{ 0, XF86XK_Calculator,			spawn,		SHCMD(TERMINAL " -e bc -l") },
+	{ 0, XF86XK_Sleep,			spawn,		SHCMD("dm-power") },
+	{ 0, XF86XK_MonBrightnessUp,		spawn,		SHCMD("brightnessctl  set +10%") },
+	{ 0, XF86XK_MonBrightnessDown,		spawn,		SHCMD("brightnessctl  set 10%-") },
+        { 0, XF86XK_TouchpadToggle,		spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
+	{ 0, XF86XK_TouchpadOff,		spawn,		SHCMD("synclient TouchpadOff=1") },
+	{ 0, XF86XK_TouchpadOn,			spawn,		SHCMD("synclient TouchpadOff=0") },
+    	{ 0, XF86XK_ScreenSaver,		spawn,		SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv") },
 
-	{ 0, XF86XK_AudioMute,		    spawn,		SHCMD("pamixer -t; kill -37 $(pidof dwmblocks)") },
-	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks); fi") },
-	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("pamixer --allow-boost -d 5; kill -37 $(pidof dwmblocks)") },
-	{ 0, XF86XK_Calculator,			spawn,	    SHCMD(TERMINAL " -e bc -l") },
-	{ 0, XF86XK_Sleep,		        spawn,		SHCMD("dm-power") },
-	{ 0, XF86XK_MonBrightnessUp,	spawn,		SHCMD("brightness_up") },
-	{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("brightness_down") },
 };
 
 

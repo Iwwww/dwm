@@ -74,6 +74,20 @@ static char urgfloatcolor[]              = "#db8fd9";
 
 
 
+static const unsigned int baralpha = 0xd0;
+static const unsigned int borderalpha = OPAQUE;
+static const unsigned int alphas[][3] = {
+	/*                       fg      bg        border     */
+	[SchemeNorm]         = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]          = { OPAQUE, baralpha, borderalpha },
+	[SchemeTitleNorm]    = { OPAQUE, baralpha, borderalpha },
+	[SchemeTitleSel]     = { OPAQUE, baralpha, borderalpha },
+	[SchemeTagsNorm]     = { OPAQUE, baralpha, borderalpha },
+	[SchemeTagsSel]      = { OPAQUE, baralpha, borderalpha },
+	[SchemeHidNorm]      = { OPAQUE, baralpha, borderalpha },
+	[SchemeHidSel]       = { OPAQUE, baralpha, borderalpha },
+	[SchemeUrg]          = { OPAQUE, baralpha, borderalpha },
+};
 
 static char *colors[][ColCount] = {
 	/*                       fg                bg                border                float */
