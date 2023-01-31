@@ -12,9 +12,11 @@
 #include "bar_tags.c"
 #include "bar_wintitle.c"
 #include "bar_fancybar.c"
+#include "bar_systray.c"
 
 /* Other patches */
 #include "attachx.c"
+#include "autostart.c"
 #include "focusdir.c"
 #include "focusmaster.c"
 #include "fullscreen.c"

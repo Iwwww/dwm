@@ -13,11 +13,17 @@ static const unsigned int gappiv         = 7;  /* vert inner gap between windows
 static const unsigned int gappoh         = 7;  /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov         = 7;  /* vert outer gap between windows and screen edge */
 static const int smartgaps_fact          = 1;   /* gap factor when there is only one client; 0 = no gaps, 3 = 3x outer gaps */
+static const char autostartblocksh[]     = "autostart_blocking.sh";
+static const char autostartsh[]          = "autostart.sh";
+static const char dwmdir[]               = "dwm";
+static const char localshare[]           = ".local/share";
 static const int showbar                 = 1;   /* 0 means no bar */
 static const int topbar                  = 1;   /* 0 means bottom bar */
 static const int focusonwheel            = 0;
 /* Status is to be shown on: -1 (all monitors), 0 (a specific monitor by index), 'A' (active monitor) */
 static const int statusmon               = 'A';
+static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const int showsystray             = 1;   /* 0 means no systray */
 
 #define NAMETAG_FORMAT "%s"
 /* The maximum amount of bytes reserved for each tag text. */
@@ -175,10 +181,11 @@ static const Rule rules[] = {
 	RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)
 	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
-    RULE(.class = "Gimp", .tags = 1 << 4)
+    // RULE(.class = "Gimp", .tags = 1 << 4)
 	// RULE(.class = "Firefox", .tags = 1 << 7)
 	RULE(.class = "St", .isfloating = 0)
 	RULE(.class = "st-256color", .isfloating = 0)
+	RULE(.class = "Blender", .isfloating = 0)
 	RULE(.class = "mpv", .isfloating = 0)
 };
 
@@ -199,6 +206,7 @@ static const Rule rules[] = {
 static const BarRule barrules[] = {
 	/* monitor   bar    alignment         widthfunc                 drawfunc                clickfunc                hoverfunc                name */
 	{ -1,        0,     BAR_ALIGN_LEFT,   width_tags,               draw_tags,              click_tags,              hover_tags,              "tags" },
+	{  0,        0,     BAR_ALIGN_RIGHT,  width_systray,            draw_systray,           click_systray,           NULL,                    "systray" },
 	{ -1,        0,     BAR_ALIGN_LEFT,   width_ltsymbol,           draw_ltsymbol,          click_ltsymbol,          NULL,                    "layout" },
 	{ statusmon, 0,     BAR_ALIGN_RIGHT,  width_status2d,           draw_status2d,          click_statuscmd,         NULL,                    "status2d" },
 	{ -1,        0,     BAR_ALIGN_NONE,   width_fancybar,           draw_fancybar,          click_fancybar,          NULL,                    "fancybar" },
@@ -256,6 +264,8 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
+/* commands */
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = {
 	"dmenu_run",
 	"-fn", dmenufont,
@@ -373,10 +383,12 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                                  7)
 	TAGKEYS(                        XK_9,                                  8)
 
+	{ 0, XF86XK_AudioRaiseVolume,		spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks); fi") },
+
 	{ MODKEY,		XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 5; kill -37 $(pidof dwmblocks)") },
 	{ MODKEY|ShiftMask,	XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 15; kill -37 $(pidof dwmblocks)") },
-	{ MODKEY,		XK_equal,	spawn,		SHCMD("pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks)") },
-	{ MODKEY|ShiftMask,	XK_equal,	spawn,		SHCMD("pamixer --allow-boost -i 15; kill -37 $(pidof dwmblocks)") },
+	{ MODKEY,		XK_equal,	spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks); fi") },
+	{ MODKEY|ShiftMask,	XK_equal,	spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 15; kill -37 $(pidof dwmblocks); fi") },
 	{ MODKEY,		XK_w,		spawn,		SHCMD(BROWSER) },
 	{ MODKEY|ShiftMask,	XK_w,		spawn,		SHCMD("networkmanager_dmenu") },
 	{ MODKEY|ShiftMask,	XK_b,		spawn,		SHCMD("dmenu-bluetooth -l 30") },
@@ -401,6 +413,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,	XK_comma,	spawn,		SHCMD("mpc seek 0%") },
 	{ MODKEY,		XK_period,	spawn,		SHCMD("mpc next") },
 	{ MODKEY|ShiftMask,	XK_period,	spawn,		SHCMD("mpc repeat") },
+	{ MODKEY, 		XK_slash,	spawn,		SHCMD(TERMINAL " -e ncmpcpp") },
 
 	{ 0, XF86XK_AudioMute,			spawn,		SHCMD("pamixer -t; kill -37 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioRaiseVolume,		spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks); fi") },
@@ -408,7 +421,7 @@ static const Key keys[] = {
     	{ 0, XF86XK_AudioPrev,			spawn,		SHCMD("mpc prev") },
 	{ 0, XF86XK_AudioNext,			spawn,		SHCMD("mpc next") },
 	{ 0, XF86XK_AudioPause,			spawn,		SHCMD("mpc pause") },
-	{ 0, XF86XK_AudioPlay,			spawn,		SHCMD("mpc play") },
+	{ 0, XF86XK_AudioPlay,			spawn,		SHCMD("mpc toggle") },
 	{ 0, XF86XK_AudioStop,			spawn,		SHCMD("mpc stop") },
 	{ 0, XF86XK_AudioRewind,		spawn,		SHCMD("mpc seek -10") },
 	{ 0, XF86XK_AudioForward,		spawn,		SHCMD("mpc seek +10") },
@@ -421,7 +434,7 @@ static const Key keys[] = {
         { 0, XF86XK_TouchpadToggle,		spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
 	{ 0, XF86XK_TouchpadOff,		spawn,		SHCMD("synclient TouchpadOff=1") },
 	{ 0, XF86XK_TouchpadOn,			spawn,		SHCMD("synclient TouchpadOff=0") },
-    	{ 0, XF86XK_ScreenSaver,		spawn,		SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv") },
+    	{ 0, XF86XK_ScreenSaver,		spawn,		SHCMD("i3lock -c 000000 & sleep 1 && xset dpms force off; mpc pause; pauseallmpv") },
 
 };
 
