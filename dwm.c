@@ -1433,8 +1433,10 @@ monocle(Monitor *m)
 	Client *c;
 
 	for (c = m->clients; c; c = c->next)
-		if (ISVISIBLE(c))
+		if (ISVISIBLE(c)) {
+			c->bw=0;
 			n++;
+		}
 	if (n > 0) /* override layout symbol */
 		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
 	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
@@ -1947,6 +1949,10 @@ fullscreen(const Arg *arg)
 void
 setlayout(const Arg *arg)
 {
+	Client *c;
+
+	for (c = selmon->clients; c; c = c->next)
+	    c->bw = borderpx;
 	if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
 		selmon->sellt ^= 1;
 	if (arg && arg->v)
