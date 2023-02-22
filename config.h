@@ -14,8 +14,11 @@ static       int smartgaps          = 0;        /* 1 means no outer gap when the
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int focusonwheel       = 0;
-static const char *fonts[]          = { "DejaVu Sans Mono:size=13:antialias=true:autohint=true" };
-static const char dmenufont[]       = "monospace:size=13";
+// static const char *fonts[]          = { "DejaVu Sans Mono:size=13:antialias=true:autohint=true" };
+// static const char *fonts[]          = { "Fira Code Regular Nerd Font Complete Mono Windows Compatible:NFM:style=Regular:size=13:antialias=true:autohint=true" };
+static const char *fonts[]          = { "JetBrainsMonoNL Nerd Font:style=SemiBold,Regular:pixelsize=18:antialias=true:autohint=true" };
+// static const char *fonts[]          = { "JetBrainsMonoNL Nerd Font:style=SemiBold,Regular:size=13:antialias=true:autohint=true" };
+static const char dmenufont[]       = "JetBrainsMonoNL Nerd Font:style=SemiBold,Regular:pixelsize=18:antialias=true:autohint=true";
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
@@ -39,8 +42,8 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            0,           -1 },
-	// { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	// { "Gimp",     NULL,       NULL,       0,            0,           -1 },
+	{ "TelegramDesktop",  NULL,       NULL,       1 << 9,       0,           -1 },
 };
 
 /* layout(s) */
@@ -55,7 +58,7 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 // #include "fibonacci.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
+	{ "[T]=",      tile },    /* first entry is default */
 	{ "[M]",      monocle },
 	{ "[@]",      spiral },
 	{ "[\\]",     dwindle },
@@ -105,7 +108,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
-	{ MODKEY,                       XK_r,      reorganizetags, {0} },
+	{ MODKEY|ShiftMask,             XK_r,      reorganizetags, {0} },
 	// { MODKEY,                       XK_x,      transfer,       {0} },
 	{ MODKEY,                       XK_space,  zoom,           {0} },
 	{ MODKEY,                       XK_s,      togglesticky,   {0} },
@@ -129,7 +132,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },  // tile
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[5]} },  // bstack
-	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[1]} },  // monocle
+	{ MODKEY,                       XK_i,      setlayout,      {.v = &layouts[1]} },  // monocle
 	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[2]} },  // spiral
 	{ MODKEY|ShiftMask,             XK_y,      setlayout,      {.v = &layouts[3]} },  // dwindle
 	{ MODKEY|ControlMask,           XK_space,  focusmaster,    {0} },
@@ -143,7 +146,8 @@ static const Key keys[] = {
 	// { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	// { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_F5,     xrdb,           {.v = NULL } },
-	{ MODKEY|ShiftMask,             XK_q,      try_quit,       {0} },
+	// { MODKEY|ShiftMask,             XK_q,      try_quit,       {0} },
+	{ MODKEY|ShiftMask|ControlMask, XK_q,      quit,           {0} },
 
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
@@ -154,12 +158,15 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	// { MODKEY|ShiftMask|ControlMask, XK_q,      quit,           {0} },
 
-	{ MODKEY,		XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 5; kill -37 $(pidof dwmblocks)") },
-	{ MODKEY|ShiftMask,	XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 15; kill -37 $(pidof dwmblocks)") },
-	{ MODKEY,		XK_equal,	spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks); fi") },
-	{ MODKEY|ShiftMask,	XK_equal,	spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 15; kill -37 $(pidof dwmblocks); fi") },
+	// { MODKEY,		XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 5; kill -37 $(pidof dwmblocks)") },
+	// { MODKEY|ShiftMask,	XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 15; kill -37 $(pidof dwmblocks)") },
+	// { MODKEY,		XK_equal,	spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks); fi") },
+	// { MODKEY|ShiftMask,	XK_equal,	spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 15; kill -37 $(pidof dwmblocks); fi") },
+	{ MODKEY,		XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -37 $(pidof dwmblocks)") },
+	{ MODKEY|ShiftMask,	XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%-; kill -37 $(pidof dwmblocks)") },
+	{ MODKEY,		XK_equal,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -37 $(pidof dwmblocks)") },
+	{ MODKEY|ShiftMask,	XK_equal,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%+; kill -37 $(pidof dwmblocks)") },
 	{ MODKEY,		XK_w,		spawn,		SHCMD(BROWSER) },
 	{ MODKEY|ShiftMask,	XK_w,		spawn,		SHCMD("networkmanager_dmenu") },
 	{ MODKEY|ShiftMask,	XK_b,		spawn,		SHCMD("dmenu-bluetooth -l 30") },
@@ -168,6 +175,7 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,	XK_e,           spawn,		SHCMD("dm-unicode") },
 	{ MODKEY|ShiftMask,	XK_l,		spawn,		SHCMD("dm-power") },
 	{ MODKEY,		XK_c,		spawn,		SHCMD("dmenu-translate") },
+	{ MODKEY,		XK_r,		spawn,		SHCMD("rofi -show drun -theme /home/mikhail/.config/rofi/launchers/type-3/style-7.rasi") },
 	{ MODKEY|ShiftMask,	XK_s,           spawn,		SHCMD("screenshot-part") },
 	{ MODKEY|ControlMask,	XK_t,		spawn,		SHCMD("telegram-desktop") },
 	{ MODKEY,		XK_m,		spawn,		SHCMD("mount_device") },
@@ -186,9 +194,12 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,	XK_period,	spawn,		SHCMD("mpc repeat") },
 	{ MODKEY, 		XK_slash,	spawn,		SHCMD(TERMINAL " -e ncmpcpp") },
 
-	{ 0, XF86XK_AudioMute,			spawn,		SHCMD("pamixer -t; kill -37 $(pidof dwmblocks)") },
-	{ 0, XF86XK_AudioRaiseVolume,		spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks); fi") },
-	{ 0, XF86XK_AudioLowerVolume,		spawn,		SHCMD("pamixer --allow-boost -d 5; kill -37 $(pidof dwmblocks)") },
+	// { 0, XF86XK_AudioMute,			spawn,		SHCMD("pamixer -t; kill -37 $(pidof dwmblocks)") },
+	// { 0, XF86XK_AudioRaiseVolume,		spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks); fi") },
+	// { 0, XF86XK_AudioLowerVolume,		spawn,		SHCMD("pamixer --allow-boost -d 5; kill -37 $(pidof dwmblocks)") },
+	{ 0, XF86XK_AudioMute,			spawn,		SHCMD("wpctl set-mute  @DEFAULT_AUDIO_SINK@ toggle") },
+	{ 0, XF86XK_AudioRaiseVolume,		spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -37 $(pidof dwmblocks)") },
+	{ 0, XF86XK_AudioLowerVolume,		spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -37 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioPrev,			spawn,		SHCMD("mpc prev") },
 	{ 0, XF86XK_AudioNext,			spawn,		SHCMD("mpc next") },
 	{ 0, XF86XK_AudioPause,			spawn,		SHCMD("mpc pause") },
