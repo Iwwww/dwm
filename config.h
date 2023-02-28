@@ -175,7 +175,7 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,	XK_e,           spawn,		SHCMD("dm-unicode") },
 	{ MODKEY|ShiftMask,	XK_l,		spawn,		SHCMD("dm-power") },
 	{ MODKEY,		XK_c,		spawn,		SHCMD("dmenu-translate") },
-	{ MODKEY,		XK_r,		spawn,		SHCMD("rofi -show drun -theme /home/mikhail/.config/rofi/launchers/type-3/style-7.rasi") },
+	{ MODKEY,		XK_r,		spawn,		SHCMD("rofi-run") },
 	{ MODKEY|ShiftMask,	XK_s,           spawn,		SHCMD("screenshot-part") },
 	{ MODKEY|ControlMask,	XK_t,		spawn,		SHCMD("telegram-desktop") },
 	{ MODKEY,		XK_m,		spawn,		SHCMD("mount_device") },
