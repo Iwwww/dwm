@@ -49,8 +49,8 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+static const int lockfullscreen = 0; /* 1 will force focus on the fullscreen window */
 
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 
@@ -146,7 +146,7 @@ static const Key keys[] = {
 	// { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	// { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_F5,     xrdb,           {.v = NULL } },
-	// { MODKEY|ShiftMask,             XK_q,      try_quit,       {0} },
+	{ MODKEY|ShiftMask,             XK_q,      try_quit,       {0} },
 	{ MODKEY|ShiftMask|ControlMask, XK_q,      quit,           {0} },
 
 	TAGKEYS(                        XK_1,                      0)
@@ -213,10 +213,11 @@ static const Key keys[] = {
 	{ 0, XF86XK_Sleep,			spawn,		SHCMD("dm-power") },
 	{ 0, XF86XK_MonBrightnessUp,		spawn,		SHCMD("brightnessctl  set +10%") },
 	{ 0, XF86XK_MonBrightnessDown,		spawn,		SHCMD("brightnessctl  set 10%-") },
-        { 0, XF86XK_TouchpadToggle,		spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
-	{ 0, XF86XK_TouchpadOff,		spawn,		SHCMD("synclient TouchpadOff=1") },
-	{ 0, XF86XK_TouchpadOn,			spawn,		SHCMD("synclient TouchpadOff=0") },
-	{ 0, XF86XK_ScreenSaver,		spawn,		SHCMD("i3lock -c 000000 & sleep 1 && xset dpms force off; mpc pause; pauseallmpv") },
+        { 0, XF86XK_TouchpadToggle,		spawn,		SHCMD("touchpad_toggle") },
+	{ MODKEY|Mod1Mask,		XK_t, 	spawn,		SHCMD("touchpad_toggle") },
+	{ 0, XF86XK_TouchpadOff,		spawn,		SHCMD("touchpad_off") },
+	{ 0, XF86XK_TouchpadOn,			spawn,		SHCMD("touchpad_on") },
+	{ 0, XF86XK_ScreenSaver,		spawn,		SHCMD("dm-power screen_off") },
 };
 
 /* button definitions */
@@ -242,4 +243,4 @@ static const Button buttons[] = {
 /* on a stock dwm install, this seems to be two; however, you'll have to
  * change it depending on how many invisible X windows exist */
 /* you can get a list with `xwininfo -tree -root`. */
-static const int EMPTY_WINDOW_COUNT = 2;
+static const int EMPTY_WINDOW_COUNT = 5;
