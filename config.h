@@ -1,6 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 #define TERMINAL "st"
-#define BROWSER "qutebrowser"
+#define BROWSER "firefox"
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
@@ -63,7 +63,7 @@ static const Layout layouts[] = {
 	{ "[M]",      monocle },
 	{ "[@]",      spiral },
 	{ "[\\]",     dwindle },
-	{ "H[]",      deck },
+	{ "[]U",      deck },
 	{ "TTT",      bstack },
 	{ "===",      bstackhoriz },
 	{ "HHH",      grid },
@@ -136,6 +136,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_i,      setlayout,      {.v = &layouts[1]} },  // monocle
 	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[2]} },  // spiral
 	{ MODKEY|ShiftMask,             XK_y,      setlayout,      {.v = &layouts[3]} },  // dwindle
+	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[4]} },  // dwindle
 	{ MODKEY|ControlMask,           XK_space,  focusmaster,    {0} },
 	{ MODKEY,                       XK_f,      togglefullscreen, {0} },
 	// { MODKEY,                       XK_space,  setlayout,      {0} },
@@ -160,16 +161,16 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 
-	// { MODKEY,		XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 5; kill -37 $(pidof dwmblocks)") },
-	// { MODKEY|ShiftMask,	XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 15; kill -37 $(pidof dwmblocks)") },
-	// { MODKEY,		XK_equal,	spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks); fi") },
-	// { MODKEY|ShiftMask,	XK_equal,	spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 15; kill -37 $(pidof dwmblocks); fi") },
-	{ MODKEY,		XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -37 $(pidof dwmblocks)") },
-	{ MODKEY|ShiftMask,	XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%-; kill -37 $(pidof dwmblocks)") },
-	{ MODKEY,		XK_equal,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -37 $(pidof dwmblocks)") },
-	{ MODKEY|ShiftMask,	XK_equal,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%+; kill -37 $(pidof dwmblocks)") },
+	{ MODKEY,		XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 5; kill -37 $(pidof dwmblocks)") },
+	{ MODKEY|ShiftMask,	XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 15; kill -37 $(pidof dwmblocks)") },
+	{ MODKEY,		XK_equal,	spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks); fi") },
+	{ MODKEY|ShiftMask,	XK_equal,	spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 15; kill -37 $(pidof dwmblocks); fi") },
+	// { MODKEY,		XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -37 $(pidof dwmblocks)") },
+	// { MODKEY|ShiftMask,	XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%-; kill -37 $(pidof dwmblocks)") },
+	// { MODKEY,		XK_equal,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -37 $(pidof dwmblocks)") },
+	// { MODKEY|ShiftMask,	XK_equal,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%+; kill -37 $(pidof dwmblocks)") },
 	{ MODKEY,		XK_w,		spawn,		SHCMD(BROWSER) },
-	{ MODKEY|ShiftMask,	XK_w,		spawn,		SHCMD("networkmanager_dmenu") },
+	{ MODKEY|ShiftMask,	XK_w,		spawn,		SHCMD("networkmanager_dmenu -l 30") },
 	{ MODKEY|ShiftMask,	XK_b,		spawn,		SHCMD("dmenu-bluetooth -l 30") },
 	{ MODKEY|ControlMask,	XK_w,		spawn,		SHCMD("firefox") },
 	{ MODKEY|ControlMask,	XK_o,           spawn,		SHCMD("dm-browser") },
@@ -198,9 +199,12 @@ static const Key keys[] = {
 	// { 0, XF86XK_AudioMute,			spawn,		SHCMD("pamixer -t; kill -37 $(pidof dwmblocks)") },
 	// { 0, XF86XK_AudioRaiseVolume,		spawn,		SHCMD("if [ $(pamixer --get-mute) == 'true' ]; then pamixer --unmute; fi; if [ $(pamixer --get-volume) -le 159 ]; then pamixer --allow-boost -i 5; kill -37 $(pidof dwmblocks); fi") },
 	// { 0, XF86XK_AudioLowerVolume,		spawn,		SHCMD("pamixer --allow-boost -d 5; kill -37 $(pidof dwmblocks)") },
-	{ 0, XF86XK_AudioMute,			spawn,		SHCMD("wpctl set-mute  @DEFAULT_AUDIO_SINK@ toggle") },
-	{ 0, XF86XK_AudioRaiseVolume,		spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -37 $(pidof dwmblocks)") },
-	{ 0, XF86XK_AudioLowerVolume,		spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -37 $(pidof dwmblocks)") },
+	{ 0, XF86XK_AudioMute,			spawn,		SHCMD("pamixer --toggle-mute") },
+	{ 0, XF86XK_AudioRaiseVolume,		spawn,		SHCMD("pamixer -i 5") },
+	{ 0, XF86XK_AudioLowerVolume,		spawn,		SHCMD("pamixer -d 5") },
+	// { 0, XF86XK_AudioMute,			spawn,		SHCMD("wpctl set-mute  @DEFAULT_AUDIO_SINK@ toggle") },
+	// { 0, XF86XK_AudioRaiseVolume,		spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -37 $(pidof dwmblocks)") },
+	// { 0, XF86XK_AudioLowerVolume,		spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -37 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioPrev,			spawn,		SHCMD("mpc prev") },
 	{ 0, XF86XK_AudioNext,			spawn,		SHCMD("mpc next") },
 	{ 0, XF86XK_AudioPause,			spawn,		SHCMD("mpc pause") },
@@ -213,7 +217,9 @@ static const Key keys[] = {
 	{ 0, XF86XK_Calculator,			spawn,		SHCMD(TERMINAL " -e bc -l") },
 	{ 0, XF86XK_Sleep,			spawn,		SHCMD("dm-power") },
 	{ 0, XF86XK_MonBrightnessUp,		spawn,		SHCMD("brightnessctl  set +10%") },
+	{ 0, XF86XK_MonBrightnessUp|ControlMask,		spawn,		SHCMD("brightnessctl  set 100%") },
 	{ 0, XF86XK_MonBrightnessDown,		spawn,		SHCMD("brightnessctl  set 10%-") },
+	{ 0, XF86XK_MonBrightnessDown|ControlMask,		spawn,		SHCMD("brightnessctl  set 0%") },
         { 0, XF86XK_TouchpadToggle,		spawn,		SHCMD("touchpad_toggle") },
 	{ MODKEY|Mod1Mask,		XK_t, 	spawn,		SHCMD("touchpad_toggle") },
 	{ 0, XF86XK_TouchpadOff,		spawn,		SHCMD("touchpad_off") },
