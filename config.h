@@ -14,10 +14,7 @@ static       int smartgaps          = 0;        /* 1 means no outer gap when the
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int focusonwheel       = 0;
-// static const char *fonts[]          = { "DejaVu Sans Mono:size=13:antialias=true:autohint=true" };
-// static const char *fonts[]          = { "Fira Code Regular Nerd Font Complete Mono Windows Compatible:NFM:style=Regular:size=13:antialias=true:autohint=true" };
 static const char *fonts[]          = { "JetBrainsMonoNL Nerd Font:style=SemiBold,Regular:pixelsize=18:antialias=true:autohint=true" };
-// static const char *fonts[]          = { "JetBrainsMonoNL Nerd Font:style=SemiBold,Regular:size=13:antialias=true:autohint=true" };
 static const char dmenufont[]       = "JetBrainsMonoNL Nerd Font:style=SemiBold,Regular:pixelsize=18:antialias=true:autohint=true";
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
@@ -110,23 +107,10 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_r,      reorganizetags, {0} },
-	// { MODKEY,                       XK_x,      transfer,       {0} },
 	{ MODKEY,                       XK_space,  zoom,           {0} },
 	{ MODKEY,                       XK_s,      togglesticky,   {0} },
 	{ MODKEY,                       XK_z,      incrgaps,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_z,      incrgaps,       {.i = -1 } },
-	// { MODKEY|Mod4Mask,              XK_i,      incrigaps,      {.i = +1 } },
-	// { MODKEY|Mod4Mask|ShiftMask,    XK_i,      incrigaps,      {.i = -1 } },
-	// { MODKEY|Mod4Mask,              XK_o,      incrogaps,      {.i = +1 } },
-	// { MODKEY|Mod4Mask|ShiftMask,    XK_o,      incrogaps,      {.i = -1 } },
-	// { MODKEY|Mod4Mask,              XK_6,      incrihgaps,     {.i = +1 } },
-	// { MODKEY|Mod4Mask|ShiftMask,    XK_6,      incrihgaps,     {.i = -1 } },
-	// { MODKEY|Mod4Mask,              XK_7,      incrivgaps,     {.i = +1 } },
-	// { MODKEY|Mod4Mask|ShiftMask,    XK_7,      incrivgaps,     {.i = -1 } },
-	// { MODKEY|Mod4Mask,              XK_8,      incrohgaps,     {.i = +1 } },
-	// { MODKEY|Mod4Mask|ShiftMask,    XK_8,      incrohgaps,     {.i = -1 } },
-	// { MODKEY|Mod4Mask,              XK_9,      incrovgaps,     {.i = +1 } },
-	// { MODKEY|Mod4Mask|ShiftMask,    XK_9,      incrovgaps,     {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_a,      defaultgaps,    {0} },
 	{ MODKEY,                       XK_a,      togglegaps,     {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
@@ -139,14 +123,9 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[4]} },  // dwindle
 	{ MODKEY|ControlMask,           XK_space,  focusmaster,    {0} },
 	{ MODKEY,                       XK_f,      togglefullscreen, {0} },
-	// { MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	// { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	// { MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	// { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	// { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_F5,     xrdb,           {.v = NULL } },
 	{ MODKEY|ShiftMask,             XK_q,      try_quit,       {0} },
 	{ MODKEY|ShiftMask|ControlMask, XK_q,      quit,           {0} },
