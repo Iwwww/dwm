@@ -14,8 +14,8 @@ static       int smartgaps          = 0;        /* 1 means no outer gap when the
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int focusonwheel       = 0;
-static const char *fonts[]          = { "JetBrainsMonoNL Nerd Font:style=SemiBold,Regular:pixelsize=18:antialias=true:autohint=true" };
-static const char dmenufont[]       = "JetBrainsMonoNL Nerd Font:style=SemiBold,Regular:pixelsize=18:antialias=true:autohint=true";
+static const char *fonts[]          = { "JetBrainsMono NFP,JetBrainsMono NFP SemiBold:style=SemiBold,Regular" };
+static const char dmenufont[]       = "JetBrainsMono NFP,JetBrainsMono NFP SemiBold:style=SemiBold,Regular";
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
@@ -40,7 +40,8 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	// { "Gimp",     NULL,       NULL,       0,            0,           -1 },
-	{ "TelegramDesktop",  NULL,       NULL,       1 << 9,       0,           -1 },
+	{ "Telegram",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Spotify",  NULL,       NULL,       1 << 7,       0,           -1 },
 	{ "ripdrag",  NULL,       NULL,       1 << 9,       1,           -1 },
 };
 
