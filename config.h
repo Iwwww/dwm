@@ -154,7 +154,7 @@ static const Key keys[] = {
 	// { MODKEY,		XK_equal,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -37 $(pidof dwmblocks)") },
 	// { MODKEY|ShiftMask,	XK_equal,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%+; kill -37 $(pidof dwmblocks)") },
 	{ MODKEY,		XK_w,		spawn,		SHCMD(BROWSER) },
-	{ MODKEY|ShiftMask,	XK_w,		spawn,		SHCMD("networkmanager_dmenu -l 30") },
+	{ MODKEY|ShiftMask,	XK_w,		spawn,		SHCMD("networkmanager_dmenu -l 30 -i") },
 	{ MODKEY|ShiftMask,	XK_b,		spawn,		SHCMD("dmenu-bluetooth -l 30") },
 	{ MODKEY|ControlMask,	XK_w,		spawn,		SHCMD("firefox") },
 	{ MODKEY|ControlMask,	XK_o,           spawn,		SHCMD("dm-browser") },
