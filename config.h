@@ -208,7 +208,7 @@ static const Key keys[] = {
 	{ MODKEY|Mod1Mask,		XK_t, 	spawn,		SHCMD("touchpad_toggle") },
 	{ 0, XF86XK_TouchpadOff,		spawn,		SHCMD("touchpad_off") },
 	{ 0, XF86XK_TouchpadOn,			spawn,		SHCMD("touchpad_on") },
-	{ 0, XF86XK_ScreenSaver,		spawn,		SHCMD("dm-power screen_off") },
+	{ 0, XF86XK_ScreenSaver,		spawn,		SHCMD("xset dpms force off") },
 };
 
 /* button definitions */
