@@ -1,0 +1,42 @@
+diff --git a/config.mk b/config.mk
+index ef8acf7..823abef 100644
+--- a/config.mk
++++ b/config.mk
+@@ -7,8 +7,8 @@ VERSION = 6.4
+ PREFIX = /usr/local
+ MANPREFIX = ${PREFIX}/share/man
+ 
+-X11INC = /usr/X11R6/include
+-X11LIB = /usr/X11R6/lib
++X11INC = /usr/local/include
++X11LIB = /usr/local/lib
+ 
+ # Xinerama, comment if you don't want it
+ XINERAMALIBS  = -lXinerama
+@@ -16,10 +16,10 @@ XINERAMAFLAGS = -DXINERAMA
+ 
+ # freetype
+ FREETYPELIBS = -lfontconfig -lXft
+-FREETYPEINC = /usr/include/freetype2
++FREETYPEINC = /usr/local/include/freetype2
+ # OpenBSD (uncomment)
+-#FREETYPEINC = ${X11INC}/freetype2
+-#MANPREFIX = ${PREFIX}/man
++# FREETYPEINC = ${X11INC}/freetype2
++# MANPREFIX = ${PREFIX}/man
+ 
+ # includes and libs
+ INCS = -I${X11INC} -I${FREETYPEINC}
+diff --git a/dwm.c b/dwm.c
+index 8d30cbc..be54317 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -74,6 +74,8 @@
+                                     } \
+                                   } \
+                                 }
++#define SA_NOCLDWAIT 0x00000010
++#define SA_RESTART 0x10000000
+ 
+ /* enums */
+ enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
